@@ -5,12 +5,14 @@ import { useState } from 'react';
 import Sidebar from '@/components/Sidebar';
 import PromptBox from '@/components/PromptBox';
 import Message from '@/components/Message';
+import { useAppContext } from '@/context/AppContext';
 
 export default function Home() {
 
   const [expand, setExpand] = useState(false);
   const [message, setMessage] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const {selectedChat} = useAppContext();
 
   return (
    <div>

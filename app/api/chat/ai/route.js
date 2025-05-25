@@ -1,60 +1,63 @@
 export const maxDuration = 60;
-import OpenAI from "openai";
+
+import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
 import connectDB from "@/config/mongodb";
-import Chat from "@/models/Chat";
+import Chat from "../../../models/Chat";
 
-const openai = new OpenAI({
-        baseURL: 'https://api.deepseek.com',
-        apiKey: process.env.DEEPSEEK_API_KEY
-});
+// Initialize Gemini
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-export async function POST(req){
-    try {
-        const {userId} = getAuth(req); 
+export async function POST(req) {
+  try {
+    const { userId } = getAuth(req);
+    const { chatId, prompt } = await req.json();
 
-        //extrat chatId and prompt from the request body
-        const { chatId, prompt} = await req.json();
-
-        if(!userId){
-            return NextResponse.json({success:false,message:"User not authenticated"});
-        }
-
-        // find the chat document in the db based on the userId and chatId
-        await connectDB();
-        const data = await Chat.findOne({userId, _id: chatId});
-
-        // create a user message object
-        const userPrompt = {
-            role: "user",
-            cotent: prompt,
-            timestamp: Date.now()
-        };
-
-        data.messages.push(userPrompt);
-
-        // call the OpenAI API to get a chat completion
-          const completion = await openai.chat.completions.create({
-            messages: [{ role: "user", content: prompt }],
-            model: "deepseek-chat",
-            store: true
-            });
-
-            const message = completion.choices[0].message;
-            message.timestamp = Date.now();
-            data.messages.push(message);
-            data.save();
-
-            return NextResponse.json({
-                success: true,
-                data: message})
-
-    }catch(error)
-    {
-        return NextResponse.json({
-            success: false,
-            error: error.message,
-        });
+    if (!userId) {
+      return NextResponse.json({ success: false, message: "User not authenticated" });
     }
+
+    await connectDB();
+    const data = await Chat.findOne({ userId, _id: chatId });
+    if (!data) {
+      return NextResponse.json({ success: false, message: "Chat not found" });
+    }
+
+    // Save user's prompt to DB
+    const userPrompt = {
+      role: "user",
+      content: prompt,
+      timestamp: Date.now()
+    };
+    data.messages.push(userPrompt);
+
+    // Call Gemini API (using your structure)
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+    });
+
+    const generatedText = response.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+
+    console.log("[Gemini Response]", generatedText);
+
+    const aiMessage = {
+      role: "assistant",
+      content: generatedText,
+      timestamp: Date.now()
+    };
+
+    data.messages.push(aiMessage);
+    await data.save();
+
+    return NextResponse.json({ success: true, data: aiMessage });
+
+  } catch (error) {
+    console.error("[Gemini Error]", error);
+    return NextResponse.json({
+      success: false,
+      message: error.message || "Something went wrong with Gemini API"
+    });
+  }
 }

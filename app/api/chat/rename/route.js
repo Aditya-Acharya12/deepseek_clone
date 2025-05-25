@@ -1,4 +1,4 @@
-import Chat from "@/models/Chat";
+import Chat from '../../../models/Chat';
 import connectDB from "@/config/mongodb";
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server"; 
