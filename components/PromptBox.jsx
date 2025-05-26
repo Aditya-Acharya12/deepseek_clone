@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { useAppContext } from '@/context/AppContext'
 import toast from 'react-hot-toast'
 import axios from 'axios'
-import { set } from 'mongoose'
 
 const PromptBox = ({isLoading,setIsLoading}) => {
 
@@ -107,7 +106,7 @@ const PromptBox = ({isLoading,setIsLoading}) => {
   return (
     <div className="w-full flex justify-center px-4">
   <form onSubmit={sendPrompt}
-    className={`w-full ${false ? 'max-w-3xl' : 'max-w-2xl'} bg-[#404045] p-4 rounded-3xl mt-4 transition-all`}
+    className={`w-full ${selectedChat?.messages?.length > 0 ? 'max-w-3xl' : 'max-w-2xl'} bg-[#404045] p-4 rounded-3xl mt-4 transition-all`}
   >
     <textarea
     onKeyDown = {handleKeyDown}
