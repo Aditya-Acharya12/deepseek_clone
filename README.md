@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 DeepSeek Clone
 
-## Getting Started
+A full-stack AI chatbot application inspired by **DeepSeek**, powered by Google’s **Gemini Pro API**. Built using **Next.js (App Router)**, **Clerk for authentication**, and **MongoDB**, this project recreates the real-time chat experience of modern AI tools, with elegant UI, chat history persistence, and smooth transitions.
 
-First, run the development server:
+This project not only simulates a real AI chat interface, but also served as a great hands-on learning experience in full-stack development, API integration, and scalable architecture.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌟 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Gemini API Integration:** Leverages Google’s Gemini Pro API to generate intelligent responses.
+- **Clerk Authentication:** Secure login/logout, with user-specific chat access.
+- **Real-time Typing Animation:** Assistant responses are revealed token-by-token.
+- **Persistent Chat History:** User messages stored and retrieved from MongoDB.
+- **Chat Management:** Rename, delete, and create chats with a clean sidebar UI.
+- **Toast Feedback:** Get instant feedback on errors and actions.
+- **Fully Responsive:** Optimized for mobile, tablet, and desktop.
+- **Dark Themed UI:** Clean and modern user experience.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🖥️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend:** React (via Next.js 14 App Router)
+- **Authentication:** Clerk
+- **Database:** MongoDB + Mongoose
+- **AI:** Gemini Pro via `@google/genai`
+- **State Management:** React Context API
+- **Styling:** Tailwind CSS
+- **Notifications:** react-hot-toast
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Getting Started
 
-## Deploy on Vercel
+### Prerequisites
+- Node.js (v16+)
+- MongoDB Atlas or local MongoDB
+- Google Gemini API key
+- Clerk account
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Installation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/deepseek-gemini-clone.git
+   cd deepseek-gemini-clone
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+   Create a `.env.local` file in the root:
+   ```env
+   CLERK_SECRET_KEY=your_clerk_secret
+   CLERK_PUBLISHABLE_KEY=your_clerk_publishable
+   MONGODB_URI=your_mongodb_connection_string
+   GEMINI_API_KEY=your_google_gemini_api_key
+   ```
+
+4. Start the dev server:
+   ```bash
+   npm run dev
+   ```
+
+5. Open your browser at `http://localhost:3000`
+
+---
+
+## ✍️ What I Learned
+
+While building this project, I gained valuable experience in:
+
+- Integrating and managing external APIs (Gemini by Google)
+- Working with protected routes and secure user data (Clerk)
+- Structuring scalable React apps using Context and modular components
+- Managing asynchronous state updates for live UI updates
+- Creating responsive and interactive UIs with Tailwind CSS
+- Debugging tricky API and UI edge cases
+
+---
+
+## 📸 Screenshots
+
+![image](https://github.com/user-attachments/assets/c0d834a7-aada-4e7b-b913-a449ac2f94d2)
+![image](https://github.com/user-attachments/assets/ff1a2fee-aab6-424e-bd5d-a693d8f78786)
+
+
+
+---
+
+## 🤝 Contributions
+
+Have ideas to improve this clone or want to extend its capabilities? Feel free to fork, raise issues, or submit pull requests!
